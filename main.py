@@ -5,7 +5,7 @@ import argparse
 import os
 import tensorflow as tf
 import numpy as np
-import magent
+from env.Combat3DoF import Combat3DoF
 from alg import mfac
 from alg import tools
 from common.play import play
@@ -19,13 +19,12 @@ if __name__ == '__main__':
     parser.add_argument('--update_every', type=int, default=5, help='decide the udpate interval for q-learning, optional')
     parser.add_argument('--n_round', type=int, default=2000, help='set the trainning round')
     parser.add_argument('--render', action='store_true', help='render or not (if true, will render every save)')
-    parser.add_argument('--map_size', type=int, default=40, help='set the size of map')  # then the amount of agents is 64
     parser.add_argument('--max_steps', type=int, default=400, help='set the max steps')
 
     args = parser.parse_args()
 
     # Initialize the environment
-    env = magent.GridWorld('battle', map_size=args.map_size)
+    env = Combat3DoF()
     handles = env.get_handles()
 
     tf_config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)
@@ -46,7 +45,7 @@ if __name__ == '__main__':
 
     models = [MFAC(sess, args.algo + '-me',  handles[0], env), MFAC(sess, args.algo + '-opponent',  handles[1], env)]
     sess.run(tf.global_variables_initializer())
-    runner = tools.Runner(sess, env, handles, args.map_size, args.max_steps, models, play,
+    runner = tools.Runner(sess, env, handles, args.max_steps, models, play,
                             render_every=args.save_every if args.render else 0, save_every=args.save_every, tau=0.01, log_name=args.algo,
                             log_dir=log_dir, model_dir=model_dir, train=True)
 

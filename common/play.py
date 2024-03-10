@@ -7,7 +7,7 @@ Created on Sat Mar  9 13:39:50 2024
 
 import numpy as np
 
-def play(env, n_round, map_size, max_steps, handles, models, print_every, eps=1.0, render=False, train=False):
+def play(env, n_round, max_steps, handles, models, print_every, eps=1.0, render=False, train=False):
     """play a ground and train"""
     env.reset()
 
