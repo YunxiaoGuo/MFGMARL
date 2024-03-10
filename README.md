@@ -1,2 +1,2 @@
 # MFGMARL
-Mean Field Game Multi-Agent Reinforcement Learning
+The code of Mean Field Game Multi-Agent Reinforcement Learning algorithm.
